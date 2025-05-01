@@ -20,15 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getMovies();
   }
 
-  void getMovies() async{// Récupérer les films à partir de l'API
-    final dataProvider = Provider.of<DataRepository>(context,
-     listen: false // Ne pas écouter les changements de l'état ici
-     );// Instance de DataRepository pour accéder aux données
-    await dataProvider.getPopularMovies();// Appel de la méthode pour récupérer les films populaires
-  }
+  
 
   @override
   Widget build(BuildContext context) {

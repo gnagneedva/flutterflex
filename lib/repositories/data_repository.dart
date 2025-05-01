@@ -28,9 +28,8 @@ class DataRepository with ChangeNotifier {
     }
   }
 
-  // Méthode pour charger la page suivante de films populaires
-  Future<void> loadMorePopularMovies() async {
-    _popularMoviesPageIndex++;
+  Future<void>  initData () async {
+    // Initialise les données en récupérant les films populaires
     await getPopularMovies();
   }
 }

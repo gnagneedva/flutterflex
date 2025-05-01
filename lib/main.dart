@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflix/repositories/data_repository.dart';
 import 'package:flutterflix/ui/screens/home_screen.dart';
+import 'package:flutterflix/ui/screens/loading_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeScreen(),
+      home: LoadingScreen(),
     );
   }
 }
