@@ -9,7 +9,7 @@ class APIService {
 
   Future<Response> getData(String path, {Map<String, dynamic>? params}) async{
     //construction de l'url
-    String _url = api.baseUrl + path;
+    String url = api.baseUrl + path;
 
     //construction des params
     Map<String, dynamic> query = {
@@ -22,7 +22,7 @@ class APIService {
     if (params != null){
       query.addAll(params);
     }
-    final response = await dio.get(_url, queryParameters: query);
+    final response = await dio.get(url, queryParameters: query);
     if(response.statusCode == 200){
       return response;
     } else{
