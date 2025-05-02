@@ -50,22 +50,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
             MovieCategory(
               label: 'Tendances actuelles',
-              movieList: dataProvider.popularMoviesList,
               imageHeight: 160,
               imageWidth: 106,
-            ),
-            MovieCategory(
-              label: 'Films actuellement au cinéma',
               movieList: dataProvider.popularMoviesList,
-              imageHeight: 304,
-              imageWidth: 205,
+              callback:dataProvider.getPopularMovies,
             ),
-            MovieCategory(
-              label: 'Ils arrivent bientôt',
-              movieList: dataProvider.popularMoviesList,
-              imageHeight: 160,
-              imageWidth: 106,
-            ),
+            // MovieCategory(
+            //   label: 'Films actuellement au cinéma',
+            //   movieList: dataProvider.popularMoviesList,
+            //   imageHeight: 304,
+            //   imageWidth: 205,
+            // ),
+            // MovieCategory(
+            //   label: 'Ils arrivent bientôt',
+            //   movieList: dataProvider.popularMoviesList,
+            //   imageHeight: 160,
+            //   imageWidth: 106,
+            // ),
             
           ],
         ),
