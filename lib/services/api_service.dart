@@ -74,6 +74,48 @@ class APIService {
       throw response;
     }
   }
+
+  Future<List<Movie>> getUpcoming({required int pageNumber}) async {
+    Response response = await getData(
+      'movie/upcoming',
+      params: {'page': pageNumber},
+    );
+    if (response.statusCode == 200) {
+      Map data = response.data;
+
+      // On récupère la liste des films à partir de la réponse JSON
+      List<Movie> movies =
+          data['results'].map<Movie>((dynamic movieJson) {
+            // On utilise le constructeur fromJson de la classe Movie pour créer un objet Movie à partir du JSON
+            // et on le retourne dans la liste.
+            return Movie.fromJson(movieJson);
+          }).toList();
+      return movies;
+    } else {
+      throw response;
+    }
+  }
+
+  Future<List<Movie>> getAnimationsMovies({required int pageNumber}) async {
+    Response response = await getData(
+      'discover/movie',
+      params: {'page': pageNumber, 'with_genres': '16'},
+    );
+    if (response.statusCode == 200) {
+      Map data = response.data;
+
+      // On récupère la liste des films à partir de la réponse JSON
+      List<Movie> movies =
+          data['results'].map<Movie>((dynamic movieJson) {
+            // On utilise le constructeur fromJson de la classe Movie pour créer un objet Movie à partir du JSON
+            // et on le retourne dans la liste.
+            return Movie.fromJson(movieJson);
+          }).toList();
+      return movies;
+    } else {
+      throw response;
+    }
+  }
 }
 //path: le chemin
 //params: clé d'api, langue, page...
