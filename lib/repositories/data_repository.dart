@@ -109,15 +109,14 @@ class DataRepository with ChangeNotifier {
   }
 
   Future<void> initData() async {
-    // Initialise les données en récupérant les films populaires
-    await getPopularMovies();
-    // Récupère les films actuellement à l'affiche
-    await getNowPlaying();
+    // Méthode d'initialisation pour charger les données au démarrage
+    // Appel de toutes les méthodes pour récupérer les films
 
-    // Récupère les films à venir
-    await getUpcoming();
-
-    // Récupère les films d'animation
-    await getAnimationsMovies();
+    await Future.wait([
+      getPopularMovies(),
+      getNowPlaying(),
+      getUpcoming(),
+      getAnimationsMovies(),
+    ]);
   }
 }

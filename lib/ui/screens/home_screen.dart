@@ -68,8 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
             MovieCategory(
               label: 'Vos films d\'animation préférés',
               movieList: dataProvider.animationList,
-              imageHeight: 160,
-              imageWidth: 106,
+              imageHeight: 304,
+              imageWidth: 205,
               callback: dataProvider.getAnimationsMovies,
             ),
           ],
