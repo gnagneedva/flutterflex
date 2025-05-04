@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutterflix/services/api.dart';
-
 import '../models/movie.dart';
 
 class APIService {
   final API api = API();
-  final Dio dio= Dio();
+  final Dio dio = Dio();
 
-  Future<Response> getData(String path, {Map<String, dynamic>? params}) async{
+  Future<Response> getData(String path, {Map<String, dynamic>? params}) async {
     //construction de l'url
     String url = api.baseUrl + path;
 
@@ -16,26 +15,26 @@ class APIService {
       'api_key': api.apiKey,
       'language': 'fr_FR',
 
-    //params communs à toutes les requettes
+      //params communs à toutes les requettes
     };
 
-    if (params != null){
+    if (params != null) {
       query.addAll(params);
     }
     final response = await dio.get(url, queryParameters: query);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       return response;
-    } else{
+    } else {
       throw response;
     }
-
   }
 
-  Future<List<Movie>> getPopularMovies({required int pageNumber}) async{
-    Response response = await getData('movie/popular', params: {
-      'page': pageNumber,
-    });
-    if(response.statusCode == 200){
+  Future<List<Movie>> getPopularMovies({required int pageNumber}) async {
+    Response response = await getData(
+      'movie/popular',
+      params: {'page': pageNumber},
+    );
+    if (response.statusCode == 200) {
       Map data = response.data;
 
       //liste de map Map<dynamic>net surtout pas de Map<String, dynamic>
@@ -45,13 +44,33 @@ class APIService {
       List<Movie> movies = [];
 
       //pour chaque éléments, on le converti en un objet de la classe movie.
-      for(Map<String, dynamic> json in results) {
+      for (Map<String, dynamic> json in results) {
         Movie movie = Movie.fromJson(json);
         movies.add(movie);
       }
       return movies;
+    } else {
+      throw response;
+    }
+  }
 
-    } else{
+  Future<List<Movie>> getNowPlaying({required int pageNumber}) async {
+    Response response = await getData(
+      'movie/now_playing',
+      params: {'page': pageNumber},
+    );
+    if (response.statusCode == 200) {
+      Map data = response.data;
+
+      // On récupère la liste des films à partir de la réponse JSON
+      List<Movie> movies =
+          data['results'].map<Movie>((dynamic movieJson) {
+            // On utilise le constructeur fromJson de la classe Movie pour créer un objet Movie à partir du JSON
+            // et on le retourne dans la liste.
+            return Movie.fromJson(movieJson);
+          }).toList();
+      return movies;
+    } else {
       throw response;
     }
   }
