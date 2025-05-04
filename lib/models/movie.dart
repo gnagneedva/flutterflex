@@ -5,12 +5,20 @@ class Movie {
   final String name;
   final String description;
   final String? posterPath;
+  final List<String>? genres;
+  final String? releaseDate;
+  final double? vote;
+  final String? runTime;
 
   Movie({
     required this.id,
     required this.name,
     required this.description,
-    this.posterPath
+    this.posterPath,
+    this.genres,
+    this.releaseDate,
+    this.vote,
+    this.runTime,
   });
 
   Movie copyWith({
@@ -18,12 +26,19 @@ class Movie {
     String? name,
     String? description,
     String? posterPath,
+    List<String>? genreIds,
+    String? releaseDate,
+    double? vote,
+    required List<String> genres,
   }) {
     return Movie(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
       posterPath: posterPath ?? this.posterPath,
+      genres: genres,
+      releaseDate: releaseDate ?? this.releaseDate,
+      vote: vote ?? this.vote,
     );
   }
 
@@ -35,8 +50,23 @@ class Movie {
       posterPath: map['poster_path'],
     );
   }
-  String posterURL(){
+  String posterURL() {
     API api = API();
-    return api.baseImageUrl + posterPath!;//"!" pour dire que posterPath ne dois pas etre null(une sorte de vérif)
+    return api.baseImageUrl +
+        posterPath!; //"!" pour dire que posterPath ne dois pas etre null(une sorte de vérif)
+  }
+
+  String reformatGenres() {
+    String categories = '';
+    for (int i = 0; i < genres!.length; i++) {
+      categories += genres![i];
+
+      // Ajoute une virgule entre les genres sauf pour le dernier
+      // On utilise "genres!.length - 1" pour éviter d'ajouter une virgule après le dernier genre
+      if (i != genres!.length - 1) {
+        categories += ', ';
+      }
+    }
+    return categories;
   }
 }

@@ -1,0 +1,97 @@
+
+    //                   :GestureDetector(
+    //       onTap: () {
+    //         Navigator.pushNamed(context, '/movieDetails',
+    //             arguments: movie); // Navigue vers la page de détails du film
+    //       },
+    //       child: Stack(
+    //         children: [
+    //           CachedNetworkImage(
+    //             imageUrl: movie.posterPath != null
+    //                 ? kImageUrl + movie.posterPath!
+    //                 : kDefaultImage,
+    //             height: 500,
+    //             width: double.infinity,
+    //             fit: BoxFit.cover,
+    //             placeholder: (context, url) => const Center(
+    //               child: CircularProgressIndicator(),
+    //             ),
+    //             errorWidget: (context, url, error) => const Icon(Icons.error),
+    //           ),
+    //           Positioned(
+    //             bottom: 0,
+    //             left: 0,
+    //             right: 0,
+    //             child: Container(
+    //               padding:
+    //                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    //               decoration: const BoxDecoration(
+    //                 gradient: LinearGradient(
+    //                   colors: [
+    //                     Colors.transparent,
+    //                     Colors.black54,
+    //                   ],
+    //                   begin: Alignment.topCenter,
+    //                   end: Alignment.bottomCenter,
+    //                 ),
+    //               ),
+    //               child: Text(
+    //                 movie.title ?? 'Titre non disponible',
+    //                 style: const TextStyle(
+    //                   color: Colors.white,
+    //                   fontSize: 20,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    // );
+
+
+
+
+
+    movie details page: body: newMovie == null
+          ? const Center(
+              child: CircularProgressIndicator(color: kPrimaryColor),
+            )
+          : Column(
+              children: [
+                Container(
+                  height: 400,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(newMovie!.posterURL()),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  newMovie!.title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  newMovie!.releaseDate,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Genres : ${newMovie!.genres.join(', ')}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),

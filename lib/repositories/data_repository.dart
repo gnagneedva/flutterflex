@@ -4,7 +4,7 @@ import 'package:flutterflix/models/movie.dart';
 import 'package:flutterflix/services/api_service.dart';
 
 class DataRepository with ChangeNotifier {
-  final APIService _apiService =
+  final APIService apiService =
       APIService(); // Instance de l'APIService pour effectuer des appels API
   // List of movies
   List<Movie> _popularMoviesList = []; // Liste des films populaires
@@ -43,7 +43,7 @@ class DataRepository with ChangeNotifier {
   Future<void> getAnimationsMovies() async {
     try {
       // Appel de l'API pour récupérer les films d'animation
-      List<Movie> movies = await _apiService.getAnimationsMovies(
+      List<Movie> movies = await apiService.getAnimationsMovies(
         pageNumber: _animationsMoviesPageIndex, // Numéro de la page actuelle
       );
       _animationsMoviesList.addAll(
@@ -60,7 +60,7 @@ class DataRepository with ChangeNotifier {
   Future<void> getPopularMovies() async {
     try {
       // Appel de l'API pour récupérer les films populaires
-      List<Movie> movies = await _apiService.getPopularMovies(
+      List<Movie> movies = await apiService.getPopularMovies(
         pageNumber: _popularMoviesPageIndex, // Numéro de la page actuelle
       );
       _popularMoviesList.addAll(
@@ -77,7 +77,7 @@ class DataRepository with ChangeNotifier {
   Future<void> getNowPlaying() async {
     try {
       // Appel de l'API pour récupérer les films populaires
-      List<Movie> movies = await _apiService.getNowPlaying(
+      List<Movie> movies = await apiService.getNowPlaying(
         pageNumber: _nowPlayingPageIndex, // Numéro de la page actuelle
       );
       _nowPlayingList.addAll(
@@ -94,7 +94,7 @@ class DataRepository with ChangeNotifier {
   Future<void> getUpcoming() async {
     try {
       // Appel de l'API pour récupérer les films à venir
-      List<Movie> movies = await _apiService.getUpcoming(
+      List<Movie> movies = await apiService.getUpcoming(
         pageNumber: _upcomingPageIndex, // Numéro de la page actuelle
       );
       _upcomingList.addAll(
@@ -104,6 +104,17 @@ class DataRepository with ChangeNotifier {
       notifyListeners(); // Notifie les écouteurs que les données ont changé
     } on Response catch (response) {
       print("Error fetching upcoming movies: ${response.statusCode}");
+      rethrow; // Relance l'erreur pour la gestion des erreurs
+    }
+  }
+
+  Future<Movie> getMovieDetails({required Movie movie}) async {
+    try {
+      // Appel de l'API pour récupérer les détails d'un film
+      Movie newMovie = await apiService.getMovieDetails(movie: movie);
+      return newMovie; // Retourne les détails du film
+    } on Response catch (response) {
+      print("Error fetching movie details: ${response.statusCode}");
       rethrow; // Relance l'erreur pour la gestion des erreurs
     }
   }

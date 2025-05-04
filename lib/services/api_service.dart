@@ -116,6 +116,29 @@ class APIService {
       throw response;
     }
   }
+
+  Future<Movie> getMovieDetails({required Movie movie}) async {
+    Response response = await getData('movie/${movie.id}');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> _data = response.data; // On récupère la réponse JSON
+
+      var genres = _data['genres'] as List; // On récupère la liste des genres
+
+      // On utilise map pour transformer chaque genre en son nom
+      // et toList pour convertir le résultat en une liste de chaînes de caractères
+      List<String> genreList =
+          genres.map((item) => item['name'] as String).toList();
+
+      Movie newMovie = movie.copyWith(
+        genres: genreList,
+        releaseDate: _data['release_date'],
+        vote: _data['vote_average'].toDouble(),
+      );
+      return newMovie; // On retourne le nouvel objet Movie avec les détails mis à jour
+    } else {
+      throw response;
+    }
+  }
 }
 //path: le chemin
 //params: clé d'api, langue, page...
