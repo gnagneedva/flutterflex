@@ -112,6 +112,8 @@ class DataRepository with ChangeNotifier {
     try {
       // Appel de l'API pour récupérer les détails d'un film
       Movie newMovie = await apiService.getMovieDetails(movie: movie);
+      newMovie = await apiService.getMovieVideos(movie: newMovie);
+
       return newMovie; // Retourne les détails du film
     } on Response catch (response) {
       print("Error fetching movie details: ${response.statusCode}");

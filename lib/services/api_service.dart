@@ -139,6 +139,20 @@ class APIService {
       throw response;
     }
   }
+
+  Future<Movie> getMovieVideos({required Movie movie}) async {
+    Response response = await getData('movie/${movie.id}/videos');
+    if (response.statusCode == 200) {
+      Map _data = response.data;
+      List<String> videosKeys =
+          _data['results'].map((dynamic videoJson) {
+            return videoJson['key'];
+          }).toList();
+      return movie.copyWith(videos: videosKeys);
+    } else {
+      throw response;
+    }
+  }
 }
 //path: le chemin
 //params: clé d'api, langue, page...

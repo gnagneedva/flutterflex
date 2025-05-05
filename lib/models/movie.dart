@@ -8,7 +8,7 @@ class Movie {
   final List<String>? genres;
   final String? releaseDate;
   final double? vote;
-  final String? runTime;
+  final List<String>? videos;
 
   Movie({
     required this.id,
@@ -18,7 +18,7 @@ class Movie {
     this.genres,
     this.releaseDate,
     this.vote,
-    this.runTime,
+    this.videos,
   });
 
   Movie copyWith({
@@ -29,7 +29,8 @@ class Movie {
     List<String>? genreIds,
     String? releaseDate,
     double? vote,
-    required List<String> genres,
+    List<String>? genres,
+    List<String>? videos,
   }) {
     return Movie(
       id: id ?? this.id,
@@ -39,6 +40,7 @@ class Movie {
       genres: genres,
       releaseDate: releaseDate ?? this.releaseDate,
       vote: vote ?? this.vote,
+      videos: videos ?? this.videos,
     );
   }
 
