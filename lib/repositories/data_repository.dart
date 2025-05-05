@@ -113,6 +113,7 @@ class DataRepository with ChangeNotifier {
       // Appel de l'API pour récupérer les détails d'un film
       Movie newMovie = await apiService.getMovieDetails(movie: movie);
       newMovie = await apiService.getMovieVideos(movie: newMovie);
+      newMovie = await apiService.getMovieCasting(movie: newMovie);
 
       return newMovie; // Retourne les détails du film
     } on Response catch (response) {

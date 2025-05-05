@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutterflix/models/person.dart';
 import 'package:flutterflix/services/api.dart';
 import '../models/movie.dart';
 
@@ -13,7 +14,7 @@ class APIService {
     //construction des params
     Map<String, dynamic> query = {
       'api_key': api.apiKey,
-      'language': 'fr_FR',
+      'language': 'fr-FR',
 
       //params communs à toutes les requettes
     };
@@ -145,10 +146,29 @@ class APIService {
     if (response.statusCode == 200) {
       Map _data = response.data;
       List<String> videosKeys =
-          (_data['results'] as List)
-              .map((videoJson) => videoJson['key'].toString())
-              .toList();
+          (_data['results'] as List).map((videoJson) {
+            return videoJson['key'] as String;
+          }).toList();
+      //         List<String> videoKeys =
+      // _data['results'].map<String>((videoJson) {
+      //   return videoJson['key'] as String;
+      // }).toList();
+
       return movie.copyWith(videos: videosKeys, genres: movie.genres);
+    } else {
+      throw response;
+    }
+  }
+
+  Future<Movie> getMovieCasting({required Movie movie}) async {
+    Response response = await getData('movie/${movie.id}/credits');
+    if (response.statusCode == 200) {
+      Map _data = response.data;
+      List<Person> casting =
+          (_data['cast'] as List).map((personJson) {
+            return Person.fromJson(personJson);
+          }).toList();
+      return movie.copyWith(casting: casting /*genres: movie.genres*/);
     } else {
       throw response;
     }
@@ -156,3 +176,37 @@ class APIService {
 }
 //path: le chemin
 //params: clé d'api, langue, page...
+
+
+// 🟠 1ère façon (avec as List)
+
+// List<String> videoKeys =
+//   (_data['results'] as List).map((videoJson) {
+//     return videoJson['key'] as String;
+//   }).toList();
+
+//     Tu dis à Dart que _data['results'] est une List.
+
+//     Ensuite, tu transformes chaque élément en String (videoJson['key']).
+
+//     Tu convertis le tout en List<String> avec toList().
+
+// 🟢 C’est pratique si Dart ne sait pas quel est le type de results.
+// 🔵 2ème façon (avec map<String>)
+
+// List<String> videoKeys =
+//   _data['results'].map<String>((videoJson) {
+//     return videoJson['key'] as String;
+//   }).toList();
+
+//     Ici, tu ne dis pas que c’est une List, tu supposes que Dart le sait déjà.
+
+//     Tu dis que map va produire des String (map<String>).
+
+//     Plus rapide à lire, mais ça peut crasher si Dart n’est pas sûr du type.
+
+// ✅ Conclusion :
+
+// Si tu es sûr que _data['results'] est une vraie List, la 2e façon est plus propre.
+
+// Sinon, la 1re est plus sûre dans les cas ambigus.

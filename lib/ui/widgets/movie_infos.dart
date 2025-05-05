@@ -60,6 +60,10 @@ class MovieInfos extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
+        Text(
+          movie.description,
+          style: GoogleFonts.poppins(fontSize: 13, color: Colors.white),
+        ),
       ],
     );
   }

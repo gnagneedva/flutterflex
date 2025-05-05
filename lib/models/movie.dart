@@ -1,3 +1,5 @@
+import 'package:flutterflix/models/person.dart';
+
 import '../services/api.dart';
 
 class Movie {
@@ -9,6 +11,7 @@ class Movie {
   final String? releaseDate;
   final double? vote;
   final List<String>? videos;
+  final List<Person>? casting;
 
   Movie({
     required this.id,
@@ -19,6 +22,7 @@ class Movie {
     this.releaseDate,
     this.vote,
     this.videos,
+    this.casting,
   });
 
   Movie copyWith({
@@ -26,21 +30,22 @@ class Movie {
     String? name,
     String? description,
     String? posterPath,
-    List<String>? genreIds,
     String? releaseDate,
     double? vote,
     List<String>? genres,
     List<String>? videos,
+    List<Person>? casting,
   }) {
     return Movie(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
       posterPath: posterPath ?? this.posterPath,
-      genres: genres,
+      genres: genres ?? this.genres,
       releaseDate: releaseDate ?? this.releaseDate,
       vote: vote ?? this.vote,
       videos: videos ?? this.videos,
+      casting: casting ?? this.casting,
     );
   }
 

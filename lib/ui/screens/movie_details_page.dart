@@ -3,6 +3,7 @@ import 'package:flutterflix/models/movie.dart';
 import 'package:flutterflix/repositories/data_repository.dart';
 import 'package:flutterflix/ui/widgets/button.dart';
 import 'package:flutterflix/ui/widgets/movie_infos.dart';
+import 'package:flutterflix/ui/widgets/video_player.dart';
 import 'package:flutterflix/utils/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +68,17 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         color: kCardColor,
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      child:
+                          newMovie!.videos!.isEmpty
+                              ? const Center(
+                                child: Text(
+                                  'Aucune vidéo disponible',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                              : VideoPlayer(movieId: newMovie!.videos!.first),
                     ),
+
                     MovieInfos(movie: newMovie!),
                     const SizedBox(height: 20),
                     Button(
