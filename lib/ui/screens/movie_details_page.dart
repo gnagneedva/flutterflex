@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterflix/models/movie.dart';
 import 'package:flutterflix/repositories/data_repository.dart';
+import 'package:flutterflix/ui/widgets/button.dart';
 import 'package:flutterflix/ui/widgets/movie_infos.dart';
 import 'package:flutterflix/utils/constant.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,14 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       ),
                     ),
                     MovieInfos(movie: newMovie!),
-
+                    const SizedBox(height: 20),
+                    Button(
+                      text: 'Télécharger',
+                      onPressed: () {},
+                      color: kCardColor,
+                      textColor: Colors.white,
+                      icon: Icons.download,
+                    ),
                     // const SizedBox(height: 10),
                     // Text(
                     //   newMovie!.overview,

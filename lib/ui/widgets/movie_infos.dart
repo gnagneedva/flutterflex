@@ -13,23 +13,18 @@ class MovieInfos extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 20),
-        Text(
-          textAlign: TextAlign.start,
-          movie!.name,
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          'genre: ${movie!.reformatGenres()}',
-          style: GoogleFonts.poppins(color: Colors.white70),
-        ),
-        const SizedBox(height: 10),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              textAlign: TextAlign.start,
+              movie.name,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -37,17 +32,34 @@ class MovieInfos extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                movie!.releaseDate!.substring(0, 4),
+                movie.releaseDate!.substring(0, 4),
                 style: GoogleFonts.poppins(fontSize: 13, color: Colors.white),
               ),
             ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'genre: ${movie.reformatGenres()}',
+              style: GoogleFonts.poppins(color: Colors.white70),
+            ),
+            Text('73 Mins', style: GoogleFonts.poppins(color: Colors.white70)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
             const SizedBox(width: 10),
             Text(
-              movie!.vote!.toStringAsFixed(1),
+              movie.vote!.toStringAsFixed(1),
               style: GoogleFonts.poppins(fontSize: 13, color: Colors.white),
             ),
           ],
         ),
+        const SizedBox(height: 10),
       ],
     );
   }
