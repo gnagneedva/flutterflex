@@ -111,10 +111,7 @@ class DataRepository with ChangeNotifier {
   Future<Movie> getMovieDetails({required Movie movie}) async {
     try {
       // Appel de l'API pour récupérer les détails d'un film
-      Movie newMovie = await apiService.getMovieDetails(movie: movie);
-      newMovie = await apiService.getMovieVideos(movie: newMovie);
-      newMovie = await apiService.getMovieCasting(movie: newMovie);
-      newMovie = await apiService.getMovieImages(movie: newMovie);
+      Movie newMovie = await apiService.getMovie(movie: movie);
 
       return newMovie; // Retourne les détails du film
     } on Response catch (response) {

@@ -118,78 +118,70 @@ class APIService {
     }
   }
 
-  Future<Movie> getMovieDetails({required Movie movie}) async {
-    Response response = await getData('movie/${movie.id}');
-    if (response.statusCode == 200) {
-      Map<String, dynamic> _data = response.data; // On récupère la réponse JSON
-
-      var genres = _data['genres'] as List; // On récupère la liste des genres
-
-      // On utilise map pour transformer chaque genre en son nom
-      // et toList pour convertir le résultat en une liste de chaînes de caractères
-      List<String> genreList =
-          genres.map((item) => item['name'] as String).toList();
-
-      Movie newMovie = movie.copyWith(
-        genres: genreList,
-        releaseDate: _data['release_date'],
-        vote: _data['vote_average'].toDouble(),
-      );
-      return newMovie; // On retourne le nouvel objet Movie avec les détails mis à jour
-    } else {
-      throw response;
-    }
-  }
-
-  Future<Movie> getMovieVideos({required Movie movie}) async {
-    Response response = await getData('movie/${movie.id}/videos');
-    if (response.statusCode == 200) {
-      Map _data = response.data;
-      List<String> videosKeys =
-          (_data['results'] as List).map((videoJson) {
-            return videoJson['key'] as String;
-          }).toList();
-      //         List<String> videoKeys =
-      // _data['results'].map<String>((videoJson) {
-      //   return videoJson['key'] as String;
-      // }).toList();
-
-      return movie.copyWith(videos: videosKeys, genres: movie.genres);
-    } else {
-      throw response;
-    }
-  }
-
-  Future<Movie> getMovieCasting({required Movie movie}) async {
-    Response response = await getData('movie/${movie.id}/credits');
-    if (response.statusCode == 200) {
-      Map _data = response.data;
-      List<Person> casting =
-          (_data['cast'] as List).map((personJson) {
-            return Person.fromJson(personJson);
-          }).toList();
-      return movie.copyWith(casting: casting /*genres: movie.genres*/);
-    } else {
-      throw response;
-    }
-  }
-
-  Future<Movie> getMovieImages({required Movie movie}) async {
+  Future<Movie> getMovie({required Movie movie}) async {
     Response response = await getData(
-      'movie/${movie.id}/images',
-      params: {'language': 'fr-FR', 'include_image_language': 'null'},
+      'movie/${movie.id}',
+      params: {
+        'language': 'fr-FR',
+        'include_image_language': 'null',
+        'append_to_response': 'videos,credits,images',
+      },
     );
     if (response.statusCode == 200) {
       Map _data = response.data;
+
+      // On utilise map pour transformer chaque genre en son nom
+      // et toList pour convertir le résultat en une liste de chaînes de caractères
+      var genres = _data['genres'] as List; // On récupère la liste des genres
+      List<String> genreList =
+          genres.map((item) => item['name'] as String).toList();
+
+      // On récupère la liste des vidéos à partir de la réponse JSON
+      List<String> videosKeys =
+          (_data['videos']['results'] as List).map((videoJson) {
+            return videoJson['key'] as String;
+          }).toList();
+
+      // On récupère la liste des images à partir de la réponse JSON
       List<String> imagePath =
-          (_data['backdrops'] as List).map((imageJson) {
+          (_data['images']['backdrops'] as List).map((imageJson) {
             return imageJson['file_path'] as String;
           }).toList();
-      return movie.copyWith(images: imagePath);
+
+      // On récupère la liste des acteurs à partir de la réponse JSON
+      List<Person> casting =
+          (_data['credits']['cast'] as List).map((personJson) {
+            return Person.fromJson(personJson);
+          }).toList();
+      return movie.copyWith(
+        genres: genreList,
+        releaseDate: _data['release_date'],
+        vote: _data['vote_average'].toDouble(),
+        videos: videosKeys,
+        casting: casting,
+        images: imagePath,
+      );
     } else {
       throw response;
     }
   }
+
+  // Future<List<Movie>> getMovieRecommendations({required Movie movie}) async {
+  //   Response response = await getData(
+  //     'movie/${movie.id}/recommendations',
+  //     params: {'language': 'fr-FR'},
+  //   );
+  //   if (response.statusCode == 200) {
+  //     Map data = response.data;
+  //     List<Movie> movies =
+  //         data['results'].map<Movie>((dynamic movieJson) {
+  //           return Movie.fromJson(movieJson);
+  //         }).toList();
+  //     return movies;
+  //   } else {
+  //     throw response;
+  //   }
+  // }
 }
 //path: le chemin
 //params: clé d'api, langue, page...
