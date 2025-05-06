@@ -4,7 +4,11 @@ class Person {
   final String name;
   final String? imageURL;
   final String characterName;
-  Person({required this.name, this.imageURL, required this.characterName});
+  Person({
+    required this.name,
+    required this.imageURL,
+    required this.characterName,
+  });
 
   Person copyWith({String? name, String? imageURL, String? characterName}) {
     return Person(
@@ -17,7 +21,7 @@ class Person {
   factory Person.fromJson(Map<String, dynamic> map) {
     return Person(
       name: map['name'] as String,
-      imageURL: map['imageURL'] != null ? map['profile_path'] as String : null,
+      imageURL: map['profile_path'],
       characterName: map['character'] as String,
     );
   }

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterflix/models/movie.dart';
 import 'package:flutterflix/repositories/data_repository.dart';
 import 'package:flutterflix/ui/widgets/button.dart';
+import 'package:flutterflix/ui/widgets/casting_card.dart';
+import 'package:flutterflix/ui/widgets/image_list.dart';
 import 'package:flutterflix/ui/widgets/movie_infos.dart';
 import 'package:flutterflix/ui/widgets/video_player.dart';
 import 'package:flutterflix/utils/constant.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -88,14 +91,41 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       textColor: Colors.white,
                       icon: Icons.download,
                     ),
-                    // const SizedBox(height: 10),
-                    // Text(
-                    //   newMovie!.overview,
-                    //   style: const TextStyle(
-                    //     fontSize: 16,
-                    //     color: Colors.white70,
-                    //   ),
-                    // ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Casting',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    CastingCard(
+                      personList: newMovie!.casting,
+                      imageHeight: 310,
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount:
+                            newMovie!
+                                .images!
+                                .length, // Remplacez par la longueur de votre liste d'images
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, index) {
+                          return Container(
+                            width: 340,
+                            margin: const EdgeInsets.only(right: 10),
+                            child: ImageList(
+                              posterPath: newMovie!.images![index],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

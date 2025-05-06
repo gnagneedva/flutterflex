@@ -51,11 +51,11 @@ class MovieCategory extends StatelessWidget {
               if (notification.metrics.axis == Axis.horizontal) {
                 // Si l'utilisateur fait défiler horizontalement
                 print("currentPosition: $currentPosition");
-                if (currentPosition >= maxPosition / 2) {// Si l'utilisateur a atteint le milieu de la liste, charger plus de films
+                if (currentPosition >= maxPosition / 2) {
+                  // Si l'utilisateur a atteint le milieu de la liste, charger plus de films
                   // Si l'utilisateur a atteint le début de la liste, charger plus de films
                   callback(
-                  // Ici, vous pouvez appeler une fonction pour charger plus de films
-                    
+                    // Ici, vous pouvez appeler une fonction pour charger plus de films
                   );
                 }
               }
@@ -69,7 +69,8 @@ class MovieCategory extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: movieList.length,
-              physics: const BouncingScrollPhysics(), // Permet un défilement fluide
+              physics:
+                  const BouncingScrollPhysics(), // Permet un défilement fluide
               itemBuilder: (BuildContext context, index) {
                 return Container(
                   decoration: BoxDecoration(

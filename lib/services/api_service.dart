@@ -173,6 +173,23 @@ class APIService {
       throw response;
     }
   }
+
+  Future<Movie> getMovieImages({required Movie movie}) async {
+    Response response = await getData(
+      'movie/${movie.id}/images',
+      params: {'language': 'fr-FR', 'include_image_language': 'null'},
+    );
+    if (response.statusCode == 200) {
+      Map _data = response.data;
+      List<String> imagePath =
+          (_data['backdrops'] as List).map((imageJson) {
+            return imageJson['file_path'] as String;
+          }).toList();
+      return movie.copyWith(images: imagePath);
+    } else {
+      throw response;
+    }
+  }
 }
 //path: le chemin
 //params: clé d'api, langue, page...
